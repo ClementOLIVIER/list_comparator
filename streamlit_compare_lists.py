@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
 from comparetor import Comparator
-from define_subscriber import upload_default_subscriber_dfs
+from define_subscriber import upload_subscriber_df
 
 
 # Todo: Add loading bar
@@ -24,7 +24,7 @@ def display_compared_lists(compared_list_names, compared_subscriber_dfs):
         list_name = compared_list_names[idx]
         cs_df = compared_subscriber_dfs[idx]
 
-        cols[idx].write(f"**List: {list_name}**")
+        cols[idx].write(list_name)
         cols[idx].write(cs_df)
 
         csv = convert_df(cs_df)
@@ -45,17 +45,26 @@ def display_input_tables():
     # Set columns
     col1, col2 = st.columns(2)
 
-    # Load list_1 as user input
-    previous_season_subscriber_df, new_season_subscriber_df = upload_default_subscriber_dfs()
+    # Load sample
+    previous_season_path = "data/sample_list_1.csv"
+    new_season_path = "data/sample_list_2.csv"
 
-    list_1_file = col1.file_uploader('Séléctionner le fichier de la saison précedente', type='csv')
+    previous_season_subscriber_df = upload_subscriber_df(previous_season_path)
+    new_season_subscriber_df = upload_subscriber_df(new_season_path)
 
-    # df = upload_subscriber_df(list_1_file)
+    # Add uploader
+    col1.write("## Liste 1")
+    previous_season_file = col1.file_uploader('Séléctionner le fichier de la saison précedente', type='csv')
+    if previous_season_file is not None:
+        previous_season_subscriber_df = upload_subscriber_df(previous_season_file)
+        col1.success('Fichier chargé')
     col1.write(previous_season_subscriber_df)
 
-    list_2_file = col2.file_uploader('Séléctionner le fichier de la nouvelle saison', type='csv')
-
-    # df = upload_subscriber_df(list_1_file)
+    col2.write("## Liste 2")
+    new_season_file = col2.file_uploader('Séléctionner le fichier de la nouvelle saison', type='csv')
+    if new_season_file is not None:
+        new_season_subscriber_df = upload_subscriber_df(new_season_file)
+        col2.success('Fichier chargé')
     col2.write(new_season_subscriber_df)
 
     if previous_season_subscriber_df is None or new_season_subscriber_df is None:
@@ -93,7 +102,8 @@ def main():
     comparator.define_lists(previous_season_subscriber_df, new_season_subscriber_df)
 
     # Compare lists
-    compared_list_names = ["new_subscribers", "unsubscribers", "subscribers_in_both"]
+    # compared_list_names = ["new_subscribers", "unsubscribers", "subscribers_in_both"]
+    compared_list_names = ["Nouveaux Inscrits", "Désinscrits", "Inscrit dans les deux saisons"]
     compared_subscriber_dfs = comparator.compare_lists()
 
     # Display compared lists
