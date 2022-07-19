@@ -58,14 +58,14 @@ def display_input_tables():
     if previous_season_file is not None:
         previous_season_subscriber_df = upload_subscriber_df(previous_season_file)
         col1.success('Fichier chargé')
-    col1.write(previous_season_subscriber_df)
+    col1.dataframe(previous_season_subscriber_df)
 
     col2.write("## Liste 2")
     new_season_file = col2.file_uploader('Séléctionner le fichier de la nouvelle saison', type='csv')
     if new_season_file is not None:
         new_season_subscriber_df = upload_subscriber_df(new_season_file)
         col2.success('Fichier chargé')
-    col2.write(new_season_subscriber_df)
+    col2.dataframe(new_season_subscriber_df)
 
     if previous_season_subscriber_df is None or new_season_subscriber_df is None:
         st.write("Upload a .csv or .xlsx file to get started")
