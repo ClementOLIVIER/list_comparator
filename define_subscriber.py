@@ -6,8 +6,8 @@ def upload_default_subscriber_dfs():
     # OLD: define_subscriber_df_old
     # Load user input compare list
     dir = "."
-    list_1_filename = "data/COMPARLISTES_L1.csv"
-    list_2_filename = "data/COMPARLISTES_L2.csv"
+    list_1_filename = "data/sample_list_1.csv"
+    list_2_filename = "data/sample_list_2.csv"
 
     previous_season_subscribers = pd.read_csv(os.path.join(dir, list_1_filename))
     new_season_subscribers = pd.read_csv(os.path.join(dir, list_2_filename))
