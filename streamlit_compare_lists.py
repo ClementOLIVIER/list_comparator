@@ -17,8 +17,7 @@ def display_compared_lists(compared_list_names, compared_subscriber_dfs):
 
     @st.cache
     def convert_df(df):
-        # IMPORTANT: Cache the conversion to prevent computation on every rerun
-        return df.to_csv().encode('utf-8')
+        return df.to_csv().encode('ISO-8859-1')
 
     for idx in range(len(compared_list_names)):
         list_name = compared_list_names[idx]
@@ -28,12 +27,14 @@ def display_compared_lists(compared_list_names, compared_subscriber_dfs):
         cols[idx].write(cs_df)
 
         csv = convert_df(cs_df)
+
+
         path = os.path.join(list_name, '.csv')
         cols[idx].download_button(
             label="Download data as CSV",
             data=csv,
             file_name=path,
-            mime='text/csv',
+            mime='text/csv'
         )
 
     st.markdown("---")
