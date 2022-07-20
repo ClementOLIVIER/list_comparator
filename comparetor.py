@@ -5,11 +5,10 @@ import matplotlib.pyplot as plt
 class Comparator:
     def __init__(self):
         pass
-    def define_lists(self, list_1, list_2):
+    def define_lists(self, list_1, list_2, column_to_compare):
         self.list_1 = list_1
         self.list_2 = list_2
-
-        # Compute
+        self.column_to_compare = column_to_compare
 
     def print_lists(self):
         print("# List A")
@@ -18,22 +17,41 @@ class Comparator:
         print(self.print(self.list_2))
 
     def compare_lists(self):
-        column_name = "Prénom - Nom"
         compared_list_dfs = []
 
-        l1_minus_l2 = set(self.list_1).difference(set(self.list_2))
-        l1_minus_l2_df = pd.DataFrame(list(l1_minus_l2), columns=[column_name])
-        compared_list_dfs.append(l1_minus_l2_df)
+        # Define set
+        l1_set = set(self.list_1[self.column_to_compare])
+        l2_set = set(self.list_2[self.column_to_compare])
 
-        l2_minus_l1 = set(self.list_2).difference(set(self.list_1))
-        l2_minus_l1_df = pd.DataFrame(list(l2_minus_l1), columns=[column_name])
-        compared_list_dfs.append(l2_minus_l1_df)
+        # Difference and intersection
+        l1_minus_l2 = l1_set.difference(l2_set)
+        l2_minus_l1 = l2_set.difference(l1_set)
+        l1_and_l2 = l1_set.intersection(l2_set)
 
-        l1_and_l2 = set(self.list_1).intersection(set(self.list_2))
-        l1_and_l2_df = pd.DataFrame(list(l1_and_l2), columns=[column_name])
-        compared_list_dfs.append(l1_and_l2_df)
+        # To dataframe
+        def set_to_dataframe(set_to_convert):
 
-        # compared_list_dfs = (l1_minus_l2, l2_minus_l1, l1_and_l2_df)
+            dict_to_df = {
+                "PRENOM": [],
+                "NOM": [],
+                "PRENOM_NOM": []
+            }
+
+            for prenom_nom in set_to_convert:
+                prenom, nom = prenom_nom.split(" - ")
+
+                dict_to_df["PRENOM"].append(prenom)
+                dict_to_df["NOM"].append(nom)
+                dict_to_df["PRENOM_NOM"].append(prenom_nom)
+
+            return pd.DataFrame().from_dict(dict_to_df)
+
+        l1_minus_l2_df = set_to_dataframe(l1_minus_l2)
+        l2_minus_l1_df = set_to_dataframe(l2_minus_l1)
+        l1_and_l2_df = set_to_dataframe(l1_and_l2)
+
+        compared_list_dfs = (l1_minus_l2_df, l2_minus_l1_df, l1_and_l2_df)
+
         return compared_list_dfs
 
     def print(self, list_df):
