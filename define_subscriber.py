@@ -12,7 +12,8 @@ def upload_subscriber_df(subscriber_list_path):
     def merge_names(row):
         return (row['PRENOM'] + " - " + row['NOM'])
 
-    subscriber_serie = subscribers.apply(merge_names, axis=1)
-    subscriber_serie.rename('NOM_COMPLET', inplace=True)
-    subscriber_df = subscriber_serie.to_frame()
+    subscriber_df = subscribers.apply(merge_names, axis=1)
+    # subscriber_serie = subscribers.apply(merge_names, axis=1)
+    # subscriber_serie.rename('NOM_COMPLET', inplace=True)
+    # subscriber_df = subscriber_serie.to_frame()
     return subscriber_df
