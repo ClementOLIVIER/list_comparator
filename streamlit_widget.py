@@ -12,8 +12,8 @@ def display_input_tables():
     col1, col2 = st.columns(2)
 
     # Load sample
-    previous_season_path = "/data/sample_list_1.csv"
-    new_season_path = "/data/sample_list_1.csv"
+    previous_season_path = "data/sample_list_1.csv"
+    new_season_path = "data/sample_list_1.csv"
 
     previous_season_subscriber_df = upload_subscriber_df(previous_season_path)
     new_season_subscriber_df = upload_subscriber_df(new_season_path)
