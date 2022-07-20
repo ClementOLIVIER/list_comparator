@@ -1,7 +1,7 @@
-NOM,PRENOM
-Doe,John
-Doe,Jane
-Smith,Bob
-Smith,Charlie
-Smith,David
-Smith,Eve
+NOM;PRENOM
+Doe;John
+Doe;Jane
+Smith;Bob
+Smith;Charlie
+Smith;David
+Smith;Eve
