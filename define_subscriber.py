@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 
 def upload_subscriber_df(subscriber_list_path):
-    subscribers = pd.read_csv(subscriber_list_path, sep=";")
+    subscribers = pd.read_csv(subscriber_list_path, sep=";", encoding = "ISO-8859-1")
 
     if subscribers.columns[0] == 'Nom':
         subscribers.rename(columns={'Nom': 'NOM', "Prénom": "PRENOM"}, inplace=True)
